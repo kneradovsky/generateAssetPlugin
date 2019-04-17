@@ -1,0 +1,57 @@
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+}
+
+
+plugins {
+    id 'java-gradle-plugin'
+    id 'groovy'
+    id 'com.gradle.plugin-publish' version '0.10.0'
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+}
+
+version = '1.0'
+configurations {
+    all*.exclude group: 'commons-io', module: 'commons-io'
+}
+
+dependencies {
+    implementation('org.apache.xmlgraphics:batik-codec:1.11')
+    implementation 'org.apache.xmlgraphics:batik-transcoder:1.11'
+}
+
+gradlePlugin {
+    plugins {
+        GenerateAssets {
+            id = "com.kovidinvo.flutter.generateassets"
+            implementationClass = "com.kovidinvo.flutter.GenerateAssetsPlugin"
+        }
+    }
+}
+
+pluginBundle {
+    website = 'http://www.gradle.org/'
+    vcsUrl = 'https://github.com/gradle-guides/greeting-plugin-example'
+    tags = ['generate','assets', 'flutter']
+    plugins {
+        GenerateAssets {
+            displayName = 'Flutter generate assets'
+            description = 'Generates multiple device pixel density png assets from a single svg'
+            version = '1.0'
+        }
+    }
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
